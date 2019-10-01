@@ -1,22 +1,27 @@
-const mongoose = require('mongoose');
+(() => {
+  'use strict';
 
-const Schema = mongoose.Schema;
+  const User = require('../schemas/user.schema');
 
-const userSchema = new Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      minlength: 5
+  module.exports = {
+    create,
+    get
+  };
+
+  function get(query) {
+    try {
+      return User.find(query); // query = { email: 'test@mail.ru'}
+    } catch (err) {
+      console.log(err);
     }
-  },
-  {
-    timestamps: true
   }
-);
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+  function create(data) {
+    return new Promise((resolve, reject) => {
+      User.create(data, (err, newUser) => {
+        if (err) return reject(err);
+        resolve(newUser);
+      });
+    });
+  }
+})();
