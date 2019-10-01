@@ -16,9 +16,9 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     if (err) return console.log(err);
-    app.listen(config.port, () => {
-      console.log(`App listening on port ${config.port}!`);
-    });
+    // app.listen(config.port, () => {
+    //   console.log(`App listening on port ${config.port}!`);
+    // });
   }
 );
 
