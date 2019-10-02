@@ -27,7 +27,7 @@
 
   async function login(req, res, next) {
     passport.authenticate('local', async (err, user, info) => {
-      console.log(user);
+      // console.log(user);
       let token;
       let refreshToken;
       let decoded;
@@ -43,7 +43,6 @@
         refreshToken = user.generateRefreshJwt();
         user.refreshToken = refreshToken;
         User.update(user);
-        // console.log('fdsf', updatedUser);
         sendJSONresponse(res, 200, {
           token: token,
           refreshToken: refreshToken,
