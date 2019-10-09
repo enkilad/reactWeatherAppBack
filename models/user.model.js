@@ -1,42 +1,54 @@
-(() => {
-  'use strict';
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const mongooseHidden = require('mongoose-hidden')();
 
-  const User = require('../schemas/user.schema');
-  const saltRounds = 10;
-  const bcrypt = require('bcrypt');
-
-  module.exports = {
-    create,
-    get,
-    update
-  };
-
-  function get(query) {
-    try {
-      return User.find(query); // query = { email: 'test@mail.ru'}
-    } catch (err) {
-      console.log(err);
-    }
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    minlength: 3
+  },
+  email: {
+    type: String,
+    required: true,
+    minlength: 4
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 4
   }
+});
 
-  function create(data) {
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(data.password, saltRounds, function(err, hash) {
-        data.password = hash;
-        User.create(data, (err, newUser) => {
-          if (err) return reject(err);
-          resolve(newUser);
-        });
-      });
-    });
-  }
+userSchema.plugin(mongooseHidden, { hidden: { _id: false, password: true } });
 
-  function update(data) {
-    return new Promise((resolve, reject) => {
-      User.update({ _id: data.id }, data).then((err, updatedUser) => {
-        if (err) return reject(err);
-        updatedUser(user);
-      });
-    });
-  }
-})();
+userSchema.methods.generateJwt = () => {
+  const expiry = new Date();
+  expiry.setDate(expiry.getDate() + 7);
+
+  return jwt.sign(
+    {
+      _id: this._id,
+      login: this.login,
+      exp: parseInt(expiry.getTime() / 1000)
+    },
+    'comp'
+  );
+};
+
+userSchema.methods.generateRefreshJwt = () => {
+  const expiry = new Date();
+  expiry.setDate(expiry.getDate() + 60);
+
+  return jwt.sign(
+    {
+      _id: this._id,
+      exp: parseInt(expiry.getTime() / 1000)
+    },
+    'comp'
+  );
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
