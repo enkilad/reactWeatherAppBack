@@ -20,9 +20,9 @@
 
   async function createHistory(historyParams) {
     try {
-      const history = await history.create(historyParams);
+      const history2 = await history.create(historyParams);
 
-      return history;
+      return history2;
     } catch (e) {
       throw e;
     }
