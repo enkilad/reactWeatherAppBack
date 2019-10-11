@@ -10,6 +10,7 @@ app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 require('./routes/user.route')(app);
+require('./routes/history.route')(app);
 
 mongoose.connect(
   config.mongoURL,

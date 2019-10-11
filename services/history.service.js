@@ -2,8 +2,8 @@
   'use strict';
 
   // const config = require('./config/constants');
-  const app = require('../app');
-  const history = app.main.model('history');
+  // const app = require('../app');
+  const history = require('../models/history.model');
 
   module.exports = {
     findHistory,

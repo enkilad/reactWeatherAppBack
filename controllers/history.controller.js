@@ -1,14 +1,14 @@
 (() => {
   'use strict';
 
-  const User = require('../models/user.model');
-  const History = require('../models/history.model');
+  const User = require('../services/user.service');
+  const History = require('../services/history.service');
 
   function createHistory(req, res) {
     Promise.resolve()
       .then(() => {
         return User.get({
-          _id: req.user.id
+          _id: req.body.user.id
         });
       })
       .then(user => {
@@ -18,7 +18,7 @@
           list: req.body.data.list,
           userId: user[0]._id
         };
-        return History.create(historyObject);
+        return History.createHistory(historyObject);
       })
       .then(response => {
         res.status(200).send(response);
@@ -27,14 +27,16 @@
   }
 
   function getHistory(req, res) {
+    console.log(User, User.get);
     Promise.resolve()
       .then(() => {
         return User.get({
-          _id: req.user.id
+          _id: req.body.user.id
         });
       })
       .then(user => {
-        return History.get({ userId: user[0]._id });
+        console.log(user);
+        return History.findHistory({ userId: user[0]._id });
       })
       .then(response => {
         res.status(200).send(response);
