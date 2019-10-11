@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const User = require('../models/user.model');
+  const User = require('../services/user.service');
   const passport = require('passport');
   const jwt = require('jsonwebtoken');
   require('../config/passport');
