@@ -18,6 +18,7 @@
           list: req.body.data.list,
           userId: user[0]._id
         };
+        console.log('dasdasdDDS',userId);
         return History.createHistory(historyObject);
       })
       .then(response => {
