@@ -31,7 +31,7 @@
     Promise.resolve()
       .then(() => {
         return User.get({
-          _id: req.body.user.id
+          _id: req.body.user.id // _id: req.query.user.id
         });
       })
       .then(user => {

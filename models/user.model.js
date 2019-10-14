@@ -5,17 +5,17 @@ const mongooseHidden = require('mongoose-hidden')();
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    // required: true,
     minlength: 3
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
     minlength: 4
   },
   password: {
     type: String,
-    required: true,
+    // required: true,
     minlength: 4
   }
 });
