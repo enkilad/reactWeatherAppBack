@@ -5,27 +5,9 @@
   const History = require('../services/history.service');
 
   function createHistory(req, res) {
-    Promise.resolve()
-      .then(() => {
-        return User.get({
-          _id: req.body.user.id
-        });
-      })
-      .then(user => {
-        console.log('Юзер ДО', user);
-        const historyObject = {
-          city: req.body.city,
-          createdAtTime: new Date(),
-          list: req.body.list,
-          userId: user._id
-        };
-        console.log('Юзер ПОСЛЕ', user);
-        return History.createHistory(historyObject);
-      })
-      .then(response => {
-        res.status(200).send(response);
-        return;
-      });
+    History.createHistory(req.body, req.payload._id).then(history => {
+      res.status(200).send(history);
+    });
   }
 
   function getHistory(req, res) {

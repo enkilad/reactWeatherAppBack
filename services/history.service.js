@@ -1,8 +1,6 @@
 (() => {
   'use strict';
 
-  // const config = require('./config/constants');
-  // const app = require('../app');
   const history = require('../models/history.model');
 
   module.exports = {
@@ -18,13 +16,12 @@
     }
   }
 
-  async function createHistory(historyParams) {
-    try {
-      const history2 = await history.create(historyParams);
-
-      return history2;
-    } catch (e) {
-      throw e;
-    }
+  function createHistory(body, id) {
+    return history.create({
+      city: body.city,
+      createdAtTime: new Date(),
+      list: body.weatherList,
+      userId: id
+    });
   }
 })();

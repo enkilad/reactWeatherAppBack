@@ -22,14 +22,14 @@ const userSchema = new mongoose.Schema({
 
 userSchema.plugin(mongooseHidden, { hidden: { _id: false, password: true } });
 
-userSchema.methods.generateJwt = () => {
+userSchema.methods.generateJwt = function() {
   const expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
 
   return jwt.sign(
     {
       _id: this._id,
-      login: this.login,
+      email: this.email,
       exp: parseInt(expiry.getTime() / 1000)
     },
     'comp'

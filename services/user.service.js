@@ -33,7 +33,7 @@
 
   function update(data) {
     return new Promise((resolve, reject) => {
-      User.update({ _id: data.id }, data).then((err, updatedUser) => {
+      User.updateOne({ _id: data.id }, data).then((err, updatedUser) => {
         if (err) return reject(err);
         updatedUser(user);
       });
