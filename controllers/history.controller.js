@@ -12,13 +12,14 @@
         });
       })
       .then(user => {
+        console.log('Юзер ДО', user);
         const historyObject = {
-          city: req.body.data.city,
+          city: req.body.city,
           createdAtTime: new Date(),
-          list: req.body.data.list,
-          userId: user[0]._id
+          list: req.body.list,
+          userId: user._id
         };
-        console.log('dasdasdDDS',userId);
+        console.log('Юзер ПОСЛЕ', user);
         return History.createHistory(historyObject);
       })
       .then(response => {
