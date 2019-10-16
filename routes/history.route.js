@@ -10,7 +10,7 @@
   });
 
   module.exports = app => {
-    app.get('/history', historyController.getHistory);
+    app.get('/history', auth, historyController.getHistory);
     app.post('/history', auth, historyController.createHistory);
   };
 })();

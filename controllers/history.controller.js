@@ -5,28 +5,40 @@
   const History = require('../services/history.service');
 
   function createHistory(req, res) {
-    History.createHistory(req.body, req.payload._id).then(history => {
-      res.status(200).send(history);
-    });
+    Promise.resolve()
+      .then(() => History.createHistory(req.body, req.payload._id))
+      .then(history => {
+        res.status(200).send(history);
+      })
+      .catch(err => console.log(err));
   }
 
   function getHistory(req, res) {
-    console.log(User, User.get);
     Promise.resolve()
-      .then(() => {
-        return User.get({
-          _id: req.body.user.id // _id: req.query.user.id
-        });
+      .then(() => History.getHistory(req.payload._id))
+      .then(history => {
+        res.status(200).send(history);
       })
-      .then(user => {
-        console.log(user);
-        return History.findHistory({ userId: user[0]._id });
-      })
-      .then(response => {
-        res.status(200).send(response);
-        return;
-      });
+      .catch(err => console.log(err));
   }
+
+  // function getHistory(req, res) {
+  //   console.log(User, User.get);
+  //   Promise.resolve()
+  //     .then(() => {
+  //       return User.get({
+  //         _id: req.payload.id // _id: req.query.user.id
+  //       });
+  //     })
+  //     .then(user => {
+  //       console.log(user);
+  //       return History.findHistory({ user_id: id });
+  //     })
+  //     .then(response => {
+  //       res.status(200).send(response);
+  //       return;
+  //     });
+  // }
 
   module.exports = {
     createHistory: createHistory,

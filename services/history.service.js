@@ -4,13 +4,13 @@
   const history = require('../models/history.model');
 
   module.exports = {
-    findHistory,
+    getHistory,
     createHistory
   };
 
-  async function findHistory(query) {
+  async function getHistory(id) {
     try {
-      return await history.find(query);
+      return await history.find({ userId: id });
     } catch (error) {
       throw error;
     }
