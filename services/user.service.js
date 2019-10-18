@@ -2,8 +2,9 @@
   'use strict';
 
   const User = require('../models/user.model');
-  const saltRounds = 10;
   const bcrypt = require('bcrypt');
+
+  const saltRounds = 10;
 
   module.exports = {
     create,

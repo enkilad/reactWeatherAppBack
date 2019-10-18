@@ -8,7 +8,8 @@
 
   module.exports = {
     create,
-    login
+    login,
+    getUser
   };
 
   const sendJSONresponse = (res, status, content) => {
@@ -52,5 +53,20 @@
         sendJSONresponse(res, 401, info);
       }
     })(req, res);
+  }
+
+  async function getUser(req, res, next) {
+    const { _id } = req.payload;
+    try {
+      let user = await User.get({ _id });
+
+      if (user && user[0]) {
+        res.status(200).send({ user });
+      } else {
+        throw new Error('There is no such user');
+      }
+    } catch (error) {
+      next(error);
+    }
   }
 })();
