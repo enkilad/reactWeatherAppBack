@@ -38,7 +38,7 @@ userSchema.methods.generateJwt = function() {
   );
 };
 
-userSchema.methods.generateRefreshJwt = () => {
+userSchema.methods.generateRefreshJwt = function() {
   const expiry = new Date();
   expiry.setDate(expiry.getDate() + 60);
 

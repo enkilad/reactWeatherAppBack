@@ -10,6 +10,8 @@
     create,
     login,
     getUser
+    // updateUsername,
+    // updatePassword
   };
 
   const sendJSONresponse = (res, status, content) => {
@@ -58,10 +60,11 @@
   async function getUser(req, res, next) {
     const { _id } = req.payload;
     try {
-      let user = await User.get({ _id });
+      const user = await User.get({ _id });
 
-      if (user && user[0]) {
-        res.status(200).send({ user });
+      if (user) {
+        // user[0]
+        res.status(200).send(user); // { user }
       } else {
         throw new Error('There is no such user');
       }
@@ -69,4 +72,70 @@
       next(error);
     }
   }
+
+  // async function updateUsername(req, res, next) {
+  //   const { _id } = req.payload;
+  //   try {
+  //     const user = await User.get({ _id });
+  //     console.log(user[0]);
+  //     if (user) {
+  //       if (user.username == req.payload.username) {
+  //         console.log(user.username);
+  //         console.log('req.payload',req.payload);
+  //         throw new Error('newUsername = currentUsername');
+  //       } else {
+  //         user.username = req.payload.username;
+  //       }
+  //     }
+  //     await user.save();
+  //     res.status(200).send(user);
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
+
+  // async function updatePassword(req, res, next) {
+  //   const { _id } = req.payload;
+  //   try {
+  //     const user = await User.get({ _id });
+  //     if (user) {
+  //       if (user.password == req.payload.currentPassword) {
+  //         throw new Error('newPassword = currentPassword');
+  //       } else {
+  //         user.password = req.payload.newPassword;
+  //       }
+  //     }
+  //     await user.save();
+  //     res.status(200).send(user);
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
+
+  // async function updateUserData(req, res, next) {
+  //   try {
+  //     if (req.userId) {
+  //       const user = await UserService.findUsers({ _id: req.userId });
+
+  //       if (user) {
+  //         if (req.body.username) {
+  //           user[0].username = req.body.username;
+  //         }
+  //         if (req.body.password) {
+  //           const hashPassword = CheckPassword._generateHash(req.body.password);
+  //           user[0].password = hashPassword;
+  //         }
+  //         await user[0].save();
+
+  //         res.status(200).send(user[0]);
+  //       } else {
+  //         throw new Error('user not found');
+  //       }
+  //     } else {
+  //       throw new Error('bad auth token');
+  //     }
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 })();
