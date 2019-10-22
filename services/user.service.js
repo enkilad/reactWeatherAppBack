@@ -12,9 +12,9 @@
     update
   };
 
-  function get(query) {
+  function get(_id) {
     try {
-      return User.find(query); // query = { email: 'test@mail.ru'}
+      return User.findOne({ _id }); // query = { email: 'test@mail.ru'}
     } catch (err) {
       console.log(err);
     }
