@@ -9,9 +9,9 @@
   module.exports = {
     create,
     login,
-    getUser
-    // updateUsername,
-    // updatePassword
+    getUser,
+    updateUsername,
+    updatePassword
   };
 
   const sendJSONresponse = (res, status, content) => {
@@ -61,7 +61,7 @@
     const { _id } = req.payload;
     try {
       const user = await User.get({ _id });
-      console.log(user);
+      // console.log(user[0].username);
 
       if (user) {
         // user[0]
@@ -72,21 +72,37 @@
     } catch (error) {
       next(error);
     }
-    console.log(req.payload);
   }
 
   async function updateUsername(req, res, next) {
     const { _id } = req.payload;
     try {
       const user = await User.get({ _id });
-      console.log(user[0]);
-      if (user) {
-        if (user.username == req.payload.username) {
-          console.log(user.username);
-          console.log('req.payload',req.payload);
+      if (user && user[0]) {
+        if (user[0].username === req.payload.newUsername) {
+          console.log(user[0].username);
+          console.log('req.payload', req.payload);
           throw new Error('newUsername = currentUsername');
         } else {
-          user.username = req.payload.username;
+          user[0].username = req.payload.newUsername;
+        }
+      }
+      await user[0].save();
+      res.status(200).send(user[0]);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function updatePassword(req, res, next) {
+    const { _id } = req.payload;
+    try {
+      const user = await User.get({ _id });
+      if (user) {
+        if (user.password === req.payload.currentPassword) {
+          throw new Error('newPassword = currentPassword');
+        } else {
+          user.password = req.payload.newPassword;
         }
       }
       await user.save();
@@ -95,24 +111,6 @@
       next(err);
     }
   }
-
-  // async function updatePassword(req, res, next) {
-  //   const { _id } = req.payload;
-  //   try {
-  //     const user = await User.get({ _id });
-  //     if (user) {
-  //       if (user.password == req.payload.currentPassword) {
-  //         throw new Error('newPassword = currentPassword');
-  //       } else {
-  //         user.password = req.payload.newPassword;
-  //       }
-  //     }
-  //     await user.save();
-  //     res.status(200).send(user);
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // }
 
   // async function updateUserData(req, res, next) {
   //   try {
